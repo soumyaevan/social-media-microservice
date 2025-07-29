@@ -46,6 +46,7 @@ services:
     depends_on:
       - redis
       - rabbitmq
+    restart: always
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
@@ -61,6 +62,7 @@ services:
     depends_on:
       - redis
       - rabbitmq
+    restart: always
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
