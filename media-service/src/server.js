@@ -56,7 +56,11 @@ app.use(errorHandler);
 
 async function startServer(params) {
   try {
-    await connectToRabbitMQ();
+    const rabbitChannel = await connectToRabbitMQ();
+    if (!rabbitChannel) {
+      logger.error("RabbitMQ connection failed, aborting startup.");
+      process.exit(1);
+    }
 
     //consume all events
     await consumeEvent("post.deleted", handlePostDeleted);
