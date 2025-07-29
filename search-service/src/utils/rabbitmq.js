@@ -38,9 +38,9 @@ async function connectToRabbitMQ(retries = 10, delay = 5000) {
   }
 }
 async function consumeEvent(routingKey, callBack) {
-  if (!channel) {
-    await connectToRabbitMQ();
-  }
+  // if (!channel) {
+  //   await connectToRabbitMQ();
+  // }
   if (!channel) {
     throw new Error("RabbitMQ channel is not available.");
   }
