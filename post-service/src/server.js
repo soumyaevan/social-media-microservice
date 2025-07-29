@@ -63,11 +63,8 @@ app.use(errorHandler);
 
 async function startServer() {
   try {
-    const rabbitChannel = await connectToRabbitMQ();
-    if (!rabbitChannel) {
-      logger.error("RabbitMQ connection failed, aborting startup.");
-      process.exit(1);
-    }
+    await connectToRabbitMQ();
+
     app.listen(PORT, () => {
       logger.info(`Post service is running on port ${PORT}`);
     });

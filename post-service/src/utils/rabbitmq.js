@@ -32,8 +32,7 @@ async function connectToRabbitMQ(retries = 10, delay = 5000) {
       if (i < retries - 1) {
         await new Promise((res) => setTimeout(res, delay));
       } else {
-        logger.error("All RabbitMQ connection attempts failed. Exiting.");
-        process.exit(1);
+        throw new Error("All RabbitMQ connection attempts failed.");
       }
     }
   }
@@ -41,6 +40,9 @@ async function connectToRabbitMQ(retries = 10, delay = 5000) {
 async function publishEvent(routingKey, message) {
   if (!channel) {
     await connectToRabbitMQ();
+  }
+  if (!channel) {
+    throw new Error("RabbitMQ channel is not available.");
   }
   channel.publish(
     EXCHANGE_NAME,
