@@ -6,7 +6,7 @@ let channel = null;
 
 const EXCHANGE_NAME = "social_media_events";
 
-async function connectToRabbitMQ(params) {
+async function connectToRabbitMQ() {
   try {
     connection = await amqp.connect(process.env.RABBITMQ_URL);
     channel = await connection.createChannel();

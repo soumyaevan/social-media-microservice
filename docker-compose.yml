@@ -5,53 +5,67 @@ services:
     build: ./api-gateway
     ports:
       - "3000:3000"
-    env_file: ./api-gateway/.env
     depends_on:
       - redis
       - rabbitmq
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - POST_SERVICE_URL=http://post-service:3002
+      - MEDIA_SERVICE_URL=http://media-service:3003
+      - SEARCH_SERVICE_URL=http://search-service:3004
+      - IDENTITY_SERVICE_URL=http://identity-service:3001
+      - JWT_SECRET_KEY
 
   identity-service:
     build: ./identity-service
-    env_file: ./identity-service/.env
     depends_on:
       - redis
       - rabbitmq
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT=3001
+      - JWT_SECRET_KEY
+      - MONGODB_URI
 
   post-service:
     build: ./post-service
-    env_file: ./post-service/.env
     depends_on:
       - redis
       - rabbitmq
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT=3002
+      - JWT_SECRET_KEY
+      - MONGODB_URI
 
   media-service:
     build: ./media-service
-    env_file: ./media-service/.env
     depends_on:
       - redis
       - rabbitmq
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT=3003
+      - JWT_SECRET_KEY
+      - MONGODB_URI
+      - CLOUDINARY_CLOUD_NAME
+      - CLOUDINARY_API_KEY
+      - CLOUDINARY_API_SECRET
 
   search-service:
     build: ./search-service
-    env_file: ./search-service/.env
     depends_on:
       - redis
       - rabbitmq
     environment:
       - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://rabbitmq:5672
+      - PORT=3004
+      - MONGODB_URI
 
   redis:
     image: redis:alpine
